@@ -2,7 +2,7 @@
 
 ![NPM Version](https://badge.fury.io/js/react-native-pace.svg) [![CircleCI](https://circleci.com/gh/traveloka/react-native-pace/tree/master.svg?style=shield&circle-token=ab2fa2d1fdea74636ee3132e16c82003cdc95383)](https://circleci.com/gh/traveloka/react-native-pace) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 
-![preview](docs/demo.gif)
+<img src="docs/demo.gif" data-canonical-src="https://gyazo.com/eb5c5741b6a9a16c692170a41a49c858.png" width="200"/>
 
 ## Installation
 
