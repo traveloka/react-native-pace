@@ -41,7 +41,7 @@ jobs:
     <<: *job-defaults
     steps:
       - attach_workspace:
-          at: ~/react-schema
+          at: ~/workdir
       - run:
           command: yarn lint
       - run:
