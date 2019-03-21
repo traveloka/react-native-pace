@@ -54,9 +54,9 @@ react-native run-ios
 
 #### Importing
 ```javascript
-var Pace = require('react-native-pace').Pace;  // ES5
+var Pace = require('@traveloka/react-native-pace').Pace;  // ES5
 
-import { Pace } from 'react-native-Pace';  // ES6
+import { Pace } from '@traveloka/react-native-Pace';  // ES6
 ```
 
 #### Children
