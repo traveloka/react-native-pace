@@ -1,0 +1,81 @@
+aliases:
+  - &restore-packages-cache
+    keys:
+      - dependencies-packages-v1-{{ checksum "packages_checksum" }}
+      - dependencies-packages-v1-
+
+  - &save-packages-cache
+    paths:
+      - node_modules
+    key: dependencies-packages-v1-{{ checksum "packages_checksum" }}
+
+defaults:
+  - &job-defaults
+    working_directory: ~/workdir
+    docker:
+      - image: circleci/node:8.11.2-jessie
+
+version: 2
+jobs:
+  setup:
+    <<: *job-defaults
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/workdir
+
+      - run:
+          command: cat yarn.lock > packages_checksum
+          name: Creating checksum file for package
+
+      - restore_cache: *restore-packages-cache
+
+      - run: yarn install
+
+      - save_cache: *save-packages-cache
+
+      - persist_to_workspace:
+          root: .
+          paths: .
+  test:
+    <<: *job-defaults
+    steps:
+      - attach_workspace:
+          at: ~/react-schema
+      - run:
+          command: yarn lint
+      - run:
+          command: yarn test
+
+  publish:
+    <<: *job-defaults
+    steps:
+      - attach_workspace:
+          at: ~/workdir
+      - run:
+          name: Authenticate with registry
+          command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
+      - run: npm publish
+
+workflows:
+  version: 2
+  default-workflow:
+    jobs:
+      - setup:
+          filters:
+            tags:
+              only: /^v.*/
+      - test:
+          requires:
+            - setup
+          filters:
+            tags:
+              only: /^v.*/
+      - publish:
+          requires:
+            - test
+          filters:
+            tags:
+              only: /^v.*/
+            branches:
+              ignore: /.*/
